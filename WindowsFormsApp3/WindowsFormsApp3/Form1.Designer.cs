@@ -29,51 +29,57 @@ namespace WindowsFormsApp3
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.usernameBox = new System.Windows.Forms.TextBox();
+            this.passwordBox = new System.Windows.Forms.TextBox();
+            this.label_error = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.panelLogin = new System.Windows.Forms.Panel();
+            this.label_password = new System.Windows.Forms.Label();
+            this.label_username = new System.Windows.Forms.Label();
+            this.btn_login = new System.Windows.Forms.Button();
+            this.panelResult = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.panelLogin.SuspendLayout();
+            this.panelResult.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // usernameBox
             // 
-            this.textBox1.ForeColor = System.Drawing.Color.Silver;
-            this.textBox1.Location = new System.Drawing.Point(13, 13);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(176, 26);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "Username";
-            this.textBox1.Enter += new System.EventHandler(this.textBox1_Enter);
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
-            this.textBox1.Leave += new System.EventHandler(this.textBox1_Leave);
+            this.usernameBox.ForeColor = System.Drawing.Color.Gray;
+            this.usernameBox.Location = new System.Drawing.Point(192, 61);
+            this.usernameBox.Name = "usernameBox";
+            this.usernameBox.Size = new System.Drawing.Size(176, 26);
+            this.usernameBox.TabIndex = 0;
+            this.usernameBox.TextChanged += new System.EventHandler(this.usernameBox_TextChanged);
             // 
-            // textBox2
+            // passwordBox
             // 
-            this.textBox2.ForeColor = System.Drawing.Color.Silver;
-            this.textBox2.Location = new System.Drawing.Point(13, 45);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(176, 26);
-            this.textBox2.TabIndex = 1;
-            this.textBox2.Text = "Password";
-            this.textBox2.Enter += new System.EventHandler(this.textBox2_Enter);
-            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
-            this.textBox2.Leave += new System.EventHandler(this.textBox2_Leave);
+            this.passwordBox.ForeColor = System.Drawing.Color.Gray;
+            this.passwordBox.Location = new System.Drawing.Point(192, 102);
+            this.passwordBox.Name = "passwordBox";
+            this.passwordBox.Size = new System.Drawing.Size(176, 26);
+            this.passwordBox.TabIndex = 1;
+            this.passwordBox.TextChanged += new System.EventHandler(this.passwordBox_TextChanged);
             // 
-            // label1
+            // label_error
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(240, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 20);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "label1";
+            this.label_error.AutoSize = true;
+            this.label_error.BackColor = System.Drawing.Color.Transparent;
+            this.label_error.ForeColor = System.Drawing.Color.Red;
+            this.label_error.Location = new System.Drawing.Point(388, 64);
+            this.label_error.Name = "label_error";
+            this.label_error.Size = new System.Drawing.Size(254, 20);
+            this.label_error.TabIndex = 2;
+            this.label_error.Text = "You\'ve inputed error abababababa";
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(350, 146);
+            this.comboBox1.Location = new System.Drawing.Point(19, 77);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 28);
             this.comboBox1.TabIndex = 3;
@@ -82,48 +88,126 @@ namespace WindowsFormsApp3
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(477, 149);
+            this.label2.Location = new System.Drawing.Point(146, 80);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 20);
+            this.label2.Size = new System.Drawing.Size(60, 20);
             this.label2.TabIndex = 4;
-            this.label2.Text = "label2";
+            this.label2.Text = "Status:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(478, 173);
+            this.label3.Location = new System.Drawing.Point(146, 115);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 20);
+            this.label3.Size = new System.Drawing.Size(54, 20);
             this.label3.TabIndex = 5;
-            this.label3.Text = "label3";
+            this.label3.Text = "Stock:";
+            // 
+            // panelLogin
+            // 
+            this.panelLogin.Controls.Add(this.label_password);
+            this.panelLogin.Controls.Add(this.label_username);
+            this.panelLogin.Controls.Add(this.label_error);
+            this.panelLogin.Controls.Add(this.btn_login);
+            this.panelLogin.Controls.Add(this.usernameBox);
+            this.panelLogin.Controls.Add(this.passwordBox);
+            this.panelLogin.Location = new System.Drawing.Point(159, 91);
+            this.panelLogin.Name = "panelLogin";
+            this.panelLogin.Size = new System.Drawing.Size(697, 192);
+            this.panelLogin.TabIndex = 7;
+            // 
+            // label_password
+            // 
+            this.label_password.AutoSize = true;
+            this.label_password.Location = new System.Drawing.Point(104, 102);
+            this.label_password.Name = "label_password";
+            this.label_password.Size = new System.Drawing.Size(82, 20);
+            this.label_password.TabIndex = 8;
+            this.label_password.Text = "Password:";
+            // 
+            // label_username
+            // 
+            this.label_username.AutoSize = true;
+            this.label_username.Location = new System.Drawing.Point(99, 64);
+            this.label_username.Name = "label_username";
+            this.label_username.Size = new System.Drawing.Size(87, 20);
+            this.label_username.TabIndex = 7;
+            this.label_username.Text = "Username:";
+            // 
+            // btn_login
+            // 
+            this.btn_login.Location = new System.Drawing.Point(192, 143);
+            this.btn_login.Name = "btn_login";
+            this.btn_login.Size = new System.Drawing.Size(85, 31);
+            this.btn_login.TabIndex = 2;
+            this.btn_login.Text = "Login";
+            this.btn_login.UseVisualStyleBackColor = true;
+            this.btn_login.Click += new System.EventHandler(this.btn_login_Click);
+            // 
+            // panelResult
+            // 
+            this.panelResult.Controls.Add(this.label4);
+            this.panelResult.Controls.Add(this.label5);
+            this.panelResult.Controls.Add(this.comboBox1);
+            this.panelResult.Controls.Add(this.label2);
+            this.panelResult.Controls.Add(this.label3);
+            this.panelResult.Location = new System.Drawing.Point(289, 91);
+            this.panelResult.Name = "panelResult";
+            this.panelResult.Size = new System.Drawing.Size(393, 377);
+            this.panelResult.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(146, 44);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(74, 20);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Location:";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(41, 339);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(195, 20);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Close application to logout";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(868, 480);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.panelLogin);
+            this.Controls.Add(this.panelResult);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.panelLogin.ResumeLayout(false);
+            this.panelLogin.PerformLayout();
+            this.panelResult.ResumeLayout(false);
+            this.panelResult.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox usernameBox;
+        private System.Windows.Forms.TextBox passwordBox;
+        private System.Windows.Forms.Label label_error;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Panel panelLogin;
+        private System.Windows.Forms.Panel panelResult;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btn_login;
+        private System.Windows.Forms.Label label_username;
+        private System.Windows.Forms.Label label_password;
     }
 }
 
