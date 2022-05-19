@@ -1,16 +1,19 @@
-// player = {
-	// pos:new Vector(0,0),
-	// draw:(pos)=>{Draw.Circle(pos.x,pos.y,20)},
-	// currentDelay: 0,
-	// setDelay: 10,
-// }
 player = new Player(0,0)
+player.square = new Square({width:40,height:40})
+player.square.position = player.pos
+for(i = 5; i--;) {
+	new Enemy(Math.random()*window.innerWidth, Math.random()*window.innerHeight)
+}
 
-new Enemy(Math.random()*window.innerWidth, Math.random()*window.innerHeight)
-new Enemy(Math.random()*window.innerWidth, Math.random()*window.innerHeight)
-new Enemy(Math.random()*window.innerWidth, Math.random()*window.innerHeight)
+new Square({pos:new Vector(200,150),width:50,height:50})
+new Square({pos:new Vector(600,175),width:50,height:50})
+new Square({pos:new Vector(210,300),width:50,height:50})
+new Square({pos:new Vector(500,400),width:50,height:50})
+
+navDelay = new Cooldown()
 
 bullets = []
+health = 100
 
 spawn_setTimer = 100
 spawn_timer = 0
@@ -20,11 +23,19 @@ function SpawnEnemy() {
 	spawn_timer = spawn_setTimer
 }
 
+let a1 = new Vector(500,window.innerWidth)
+let a2 = new Vector(500,0)
+let a3 = new Vector(250,250)
+let a4 = player.pos
+let lpos
+//console.log(lpos = Vector.Intersects(a1,a2,a3,a4))
+
 gameid = requestAnimationFrame(Loop)
 function Loop() {
 	
 	//Tick
 	spawn_timer--
+	Cooldown.TickAll()
 	
 	//User input
 	let x = 0
@@ -41,6 +52,8 @@ function Loop() {
 			bullets.push({
 				pos:new Vector(player.pos),
 				dir:player.pos.Towards(input.mpos),
+				speed:10,
+				stopped:false,
 				time:500
 			})
 			player.currentDelay = player.setDelay
@@ -48,16 +61,32 @@ function Loop() {
 	}
 	player.currentDelay--
 	
+	//Reset inputs
+	for(const i in input.once) {
+		input.once[i] = false
+	}
+	
 	//Game events
-	SpawnEnemy()
-	
-	
+	//SpawnEnemy()
 	
 	//Actions
 	for(const entity of entities) {
 		if(entity!=player) {
+			if(entity.cooldown)
 			//entity.target.Set(player.pos)
-			entity.Act()
+			//entity.Act()
+			if(entity.mode=='target') {
+				if(entity.target) {
+					let tpos = entity.target
+					entity.MoveTowards(tpos.x,tpos.y,entity.speed)
+				}
+			}
+			if(entity.mode=='patrol') {
+				if(entity.pos.Distance(player.pos)<200) {
+					entity.target = player.pos
+					entity.mode = 'target'
+				}
+			}
 		}
 	}
 	
@@ -75,29 +104,108 @@ function Loop() {
 			}
 		}
 	}
+	for(const o of GameObject.objects) {
+		for(const bullet of bullets) {
+			let oPos = o.position
+			if(oPos.Distance(bullet.pos)<o.shortheight*1.4) {
+				if(!bullet.stopped) {
+					bullet.stopped = true
+					for(const edge of Navmesh.edges) {
+						let point = Vector.Intersects(new Vector(0,0),bullet.dir,edge.A,edge.B)
+						if(point.point.Distance(bullet.pos)<bullet.speed) {
+							
+						}
+					}
+				}
+			}
+		}
+	}
+	for(i = bullets.length-1; i>=0; i--) {
+		for(const edge of Navmesh.edges) {
+			let bullet = bullets[i]
+			let point = Vector.Intersects(new Vector(0,0),bullet.dir,edge.A,edge.B)
+			if(bullet.pos.Distance(point)<bullet.speed) {
+				
+			}
+		}
+	}
+	
+	//Navigation Render
+	if(navDelay.Get()<=0) {
+		//navDelay.Set(100)
+		//Navmesh.Compute(GameObject.objects)
+	}
 	
 	//Draw
 	Draw.Clear()
 	//player.draw(player.pos)
 	DrawBullets()
 	DrawEntities()
+	DrawUI()
+	DrawWalls()
+	Navmesh.Draw()
+	Draw.Line(a1,a2)
+	Draw.Line(a3,a4)
+	lpos = Vector.Intersects(a1,a2,a3,a4)
+	let lpcol = lpos.hit ? 'blue' : 'red'
+	Draw.Circle(lpos.point.x,lpos.point.y,5,lpcol)
+	for(const p of Navmesh.intersects) {
+		Draw.Circle(p.x,p.y,5,'red')
+	}
+	for(const edge of Navmesh.edges) {
+		let point = Vector.Intersects(edge.A,edge.B,a3,a4)
+		if(point.hit==true) {
+			let pos = point.point
+			Draw.Line(edge.A,edge.B,'red')
+			Draw.Circle(pos.x,pos.y,5,'red')
+		}
+	}
 	
 	//Anim
 	gameid = requestAnimationFrame(Loop)
 }
 
+function Stop() {
+	cancelAnimationFrame(gameid)
+	console.log('Game paused')
+}
+
+function Start() {
+	requestAnimationFrame(Loop)
+	console.log('Game resumed.')
+}
+
 function DrawBullets() {
 	for(i = bullets.length-1; i>=0; i--) {
 		let bullet = bullets[i]
-		bullet.pos.Add(bullet.dir.ScaledBy(10))
+		if(!bullet.stopped) bullet.pos.Add(bullet.dir.ScaledBy(bullet.speed))
 		bullet.time--
 		if(bullet.time<=0) bullets.splice(i,1)
-		Draw.Line(bullet.pos,bullet.pos.And(bullet.dir.ScaledBy(10)))
+		if(!bullet.stopped) {
+			Draw.Line(bullet.pos,bullet.pos.And(bullet.dir.ScaledBy(10)))
+		}
+		else {
+			Draw.Line(bullet.pos,bullet.pos.And(bullet.dir.ScaledBy(4)))
+		}
 	}
 }
 
 function DrawEntities() {
 	for(const entity of entities) {
-		Draw.Circle(entity.pos.x,entity.pos.y,20,entity.color)
+		Draw.Circle(entity.pos.x, entity.pos.y,20,entity.color)
+	}
+}
+
+function DrawUI() {
+	Draw.Square(5,5,200,20)
+	Draw.Square(6,6,health/100*198,18,'red')
+	if(health>0) {
+		health-=0.1
+	}
+}
+
+function DrawWalls() {
+	for(const obj of GameObject.objects) {
+		Draw.Square(obj.position.x-obj.shortwidth,obj.position.y-obj.shortwidth,2*obj.shortwidth,2*obj.shortheight)
 	}
 }

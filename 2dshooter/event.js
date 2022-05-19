@@ -1,15 +1,24 @@
-class Timer {
+class Cooldown {
+	tick = 0
 	static listeners = []
-	Add(value, callback) {
-		listeners.push({time:value,call:callback})
+	constructor() {
+		Cooldown.listeners.push(this)
 	}
-	Tick() {
-		for(i = listeners.length-1; i>=0; i--) {
-			listeners[i].time--
-			if(listeners[i].time<=0) {
-				listeners[i].call()
-				listeners.splice(i,1)
+	static TickAll() {
+		for(const listener of Cooldown.listeners) {
+			if(listener.tick>0) {
+				listener.tick-=1
 			}
 		}
+	}
+	Get() {
+		return this.tick
+	}
+	Set(x) {
+		this.tick = x
+	}
+	Dismantle() {
+		c = Cooldown
+		c.splice(c.indexOf(this))
 	}
 }

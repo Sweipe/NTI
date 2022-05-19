@@ -2,9 +2,24 @@ entities = []
 
 class Entity {
 	color='black'
+	faction='neutral'
+	mode="idle"
 	constructor(x,y,args) {
 		this.pos = new Vector(x,y)
 		entities.push(this)
+	}
+	MoveTowards(x,y,step=1) {
+		let target = new Vector(x,y)
+		if(this.pos.Distance(target)<step) {
+			this.pos.Set(target)
+		}
+		else {
+			let dir = this.pos.Towards(target).Multiply(step)
+			this.pos.Add(dir)
+		}
+	}
+	Target(obj) {
+		
 	}
 }
 
@@ -14,12 +29,6 @@ class Player extends Entity {
 	setDelay=10
 	constructor(x,y) {
 		super(x,y)
-		// player = {
-			// pos:new Vector(0,0),
-			// draw:(pos)=>{Draw.Circle(pos.x,pos.y,20)},
-			// currentDelay: 0,
-			// setDelay: 10,
-		// }
 	}
 }
 
@@ -29,23 +38,20 @@ class Enemy extends Entity {
 	dir = new Vector(0,0)
 	target = null
 	speed = 1
+	faction = 'enemy'
+	
+	action_setDelay = 1
+	action_currentDelay = 0
+	
+	attack_setDelay = 1
+	attack_currentDelay = 0
+	
+	// delays = {
+		// attack: new Delay(),
+		// action: new Delay(),
+	// }
+	
 	constructor(x,y) {
 		super(x,y)
-	}
-	Act() {
-		if(!this.target) return
-		if(this.pos.Distance(this.target)>this.speed) {
-			let dir = this.pos.Towards(this.target)
-			this.pos.Add(dir.Multiply(this.speed))
-		}
-		else {
-			this.pos.Set(target)
-			this.target = null
-			if(this.mode=='patrol'){
-				let angle = Math.random*Math.PI*2
-				let x = Math.cos(angle)
-				let y = Math.sin(angle)
-			}
-		}
 	}
 }

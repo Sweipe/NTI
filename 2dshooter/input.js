@@ -5,6 +5,9 @@ var input = {
 	D:false,
 	LMB:false,
 	mpos:new Vector(0,0),
+	once:{
+		LMB:false,
+	}
 }
 
 document.addEventListener('keydown' ,e=>{
@@ -18,7 +21,10 @@ document.addEventListener('keyup' ,e=>{
 })
 
 document.addEventListener('mousedown', e=>{
-	if(e.button==0) input.LMB = true
+	if(e.button==0) {
+		if(!input.LMB) input.once.LMB = true
+		input.LMB = true
+	}
 })
 
 document.addEventListener('mouseup', e=>{
