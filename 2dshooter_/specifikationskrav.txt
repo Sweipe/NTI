@@ -1,0 +1,38 @@
+Titel::
+2d topdown shooter
+
+Beskrivning::
+Produkten är ett spel som man kan spela lokalt i webbläsaren eller från ett webbhotel. Sparad användarinformation från tidigare spelsessioner kommer att kunnas sparas och frammas till nästa spelsession.
+
+Teknisk Beskrivning::
+Spelet kommer att renderas med en canvas element i en html fil. Skript och ytterligare kommer att laddas in automatiskt i html filen. Spelet består i helhet av javascript. Användaren skall kunna styra en spelkaraktär som kan interagera med objekt i spelet. Spelet kommer inkludera fientliga karaktärer som spelare måste eliminera för att klara spelet.
+
+Syfte::
+Underhållning. Spelet skall vara underhållande i att det ger en lagom utom utmaning samt en passande grafik.
+
+Hårdvara::
+HP ProBook 440 G7
+(Valfritt)Webbserver/hotell
+
+Mjukvara::
+Notepad++
+XAMPP
+Node.js
+
+Programmeringsspråk:
+HTML
+CSS
+JS
+
+Serverprogrammeringspråk:
+PHP
+
+Resurser::
+Jag(A.L)
+
+Budget::
+Standard 500kr/t
+48 timmar max
+Resursen är ny inom programmeringsbranschen och uppskattar att projektet kräver 48 arbetstimmar relativt till specificerade detailjer ovan.
+
+Maxpris: 24000kr
